@@ -6,18 +6,22 @@ public class PlayerController : MonoBehaviour {
 
     public float jumpInitialSpeed = 10.0f;
     public bool godMode = false;
+    public UnityEngine.UI.Text scoreText;
+    public UnityEngine.UI.Button retryButton;
 
     private bool touched = false;
     private bool touchSupported = false;
     private Rigidbody2D rb;
     private ParticleSystem deathParticles;
     private bool isDead = false;
+    private int scores = 0;
 
 	// Use this for initialization
 	void Start () {
         touchSupported = Input.touchSupported;
         rb = GetComponent<Rigidbody2D>();
         deathParticles = GetComponentInChildren<ParticleSystem>();
+        retryButton.gameObject.active = false;
     }
 	
 	// Update is called once per frame
@@ -30,6 +34,12 @@ public class PlayerController : MonoBehaviour {
         }
         updateOrientation();
 	}
+
+    public void AddScore()
+    {
+        scores++;
+        scoreText.text = "Scores: " + scores;
+    }
 
     private bool isClicked()
     {
@@ -79,6 +89,8 @@ public class PlayerController : MonoBehaviour {
             gameObject.layer = 9; // Dead player doesn't collide with towers
             rb.velocity = new Vector2(0.0f, jumpInitialSpeed);
             isDead = true;
+            SendMessage("OnPlayerDead");
+            retryButton.gameObject.active = true;
         }
     }
 }
