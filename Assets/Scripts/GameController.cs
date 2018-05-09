@@ -35,6 +35,11 @@ public class GameController : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void OnExitGameplay()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
     public void OnPlayerDead()
     {
         showDeathUI();
